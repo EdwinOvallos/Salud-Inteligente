@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salud Inteligente</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <!-- Registro de usuario -->
+    <section id="registro-seccion">
+      <h1>Salud Inteligente</h1>
+      <h2>Registrar Usuario</h2>
+      <img src="C:\Users\JesusDubiEchavesCoro\Downloads\ISOS DE WINDOWS\Saludinteligente/registro.png" alt="Ilustración de registro" class="section-image" width="300" height="300">
+      <form id="form-registro">
+        <label>Nombre: <input type="text" id="nombre" required /></label>
+        <label>Edad: <input type="number" id="edad" required /></label>
+        <label>Tipo de Usuario:
+          <select id="tipo">
+            <option>Adulto Mayor</option>
+            <option>Niño</option>
+            <option>Cuidador</option>
+          </select>
+        </label>
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
+
+    <!-- Agregar medicamentos -->
+    <section id="medicamentos-seccion" style="display:none;">
+      <h2>Agregar Medicamentos</h2>
+      <img src="C:\Users\JesusDubiEchavesCoro\Downloads\ISOS DE WINDOWS\Saludinteligente/medicamentos.png" alt="Ilustración de medicamentos" class="section-image" width="300" height="300">
+      <form id="form-tratamiento">
+        <label>Nombre del Medicamento:
+          <input type="text" id="medicamento" required />
+        </label>
+        <label>Primera Hora:
+          <input type="time" id="hora" required />
+        </label>
+        <label>Cada cuántas horas:
+          <select id="frecuencia-horas">
+            <option value="4">Cada 4 horas</option>
+            <option value="6">Cada 6 horas</option>
+            <option value="8">Cada 8 horas</option>
+            <option value="12">Cada 12 horas</option>
+            <option value="24">Cada 24 horas</option>
+          </select>
+        </label>
+        <button type="submit">Guardar Medicamento</button>
+      </form>
+      <ul id="lista-tratamientos"></ul>
+      <button id="continuar">Siguiente</button>
+    </section>
+
+    <!-- Panel de usuario -->
+    <section id="panel-seccion" style="display:none;">
+      <header>
+        <h1>Bienvenido a la Plataforma de Seguimiento</h1>
+        <img src="C:\Users\JesusDubiEchavesCoro\Downloads\ISOS DE WINDOWS\Saludinteligente/panel.png" alt="Panel de usuario" class="section-image" width="300" height="300">
+        <div id="usuario-panel">
+          <span id="nombre-usuario"></span>
+        </div>
+      </header>
+
+      <div>
+        <h2>Medicamentos Pendientes</h2>
+        <ul id="lista-tratamientos-panel"></ul>
+
+        <h2>Citas Pendientes</h2>
+        <ul id="lista-citas-panel"></ul>
+
+        <button id="agregar-medicamento">Agregar Medicamento</button>
+        <button id="agregar-cita">Agregar Cita Médica</button>
+      </div>
+      <button id="reiniciar-app" style="position: absolute; bottom: 20px; right: 20px;">Reiniciar</button>
+    </section>
+
+    <!-- Modal de edición de medicamento -->
+    <section id="editar-medicamento-modal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background-color: #f1faee; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1001;">
+      <h2>Editar Medicamento</h2>
+      <form id="form-editar-medicamento">
+        <input type="hidden" id="editar-medicamento-index">
+        <label>Nombre del Medicamento: <input type="text" id="editar-medicamento-nombre" required /></label><br>
+        <label>Primera Hora: <input type="time" id="editar-medicamento-hora" required /></label><br>
+        <label>Cada cuántas horas:
+          <select id="editar-medicamento-frecuencia-horas">
+            <option value="4">Cada 4 horas</option>
+            <option value="6">Cada 6 horas</option>
+            <option value="8">Cada 8 horas</option>
+            <option value="12">Cada 12 horas</option>
+            <option value="24">Cada 24 horas</option>
+          </select>
+        </label><br>
+        <button type="submit">Guardar Cambios</button>
+        <button type="button" id="cerrar-editar-medicamento">Cancelar</button>
+      </form>
+    </section>
+
+    <!-- Modal de agregar cita -->
+    <section id="cita-modal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: #fff; padding: 20px; border: 2px solid #ccc; border-radius: 10px; z-index: 1000;">
+      <h3>Agregar Cita Médica</h3>
+      <img src="C:\Users\JesusDubiEchavesCoro\Downloads\ISOS DE WINDOWS\Saludinteligente/cita.png" alt="Cita médica" class="section-image">
+      <form id="form-cita">
+        <label>Descripción: <input type="text" id="cita-descripcion" required /></label><br>
+        <label>Fecha: <input type="date" id="cita-fecha" required /></label><br>
+        <label>Hora: <input type="time" id="cita-hora" required /></label><br>
+        <label>Hora de Recordatorio: <input type="time" id="recordatorio-hora" required /></label><br>
+        <button type="submit">Guardar Cita</button>
+        <button type="button" id="cerrar-cita">Cerrar</button>
+      </form>
+    </section>
+
+<section id="editar-cita-modal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background-color: #e0f7fa; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1002;">
+            <h2>Editar Cita</h2>
+            <form id="form-editar-cita">
+                <input type="hidden" id="editar-cita-index">
+                <label>Descripción: <input type="text" id="editar-cita-descripcion" required /></label><br>
+                <label>Fecha: <input type="date" id="editar-cita-fecha" required /></label><br>
+                <label>Hora: <input type="time" id="editar-cita-hora" required /></label><br>
+                <label>Hora de Recordatorio: <input type="time" id="editar-cita-recordatorio-hora" required /></label><br>
+                <button type="submit">Guardar Cambios</button>
+                <button type="button" id="cerrar-editar-cita">Cancelar</button>
+            </form>
+        </section>
+
+
+
+
+
+  </main>
+</body>
+</html>
+
+  <script>
+// Manejo del Registro
+  document.getElementById('form-registro').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    localStorage.setItem('nombreUsuario', nombre);
+
+    document.getElementById('registro-seccion').style.display = 'none';
+    document.getElementById('medicamentos-seccion').style.display = 'block';
+  });
+
+  // Manejo de Medicamentos
+  const listaMedicamentos = [];
+  const formMedicamento = document.getElementById('form-tratamiento');
+  const ulMedicamentos = document.getElementById('lista-tratamientos');
+  const nombreUsuario = document.getElementById('nombre-usuario');
+  const panel = document.getElementById('panel-seccion');
+  const medicamentosPanel = document.getElementById('lista-tratamientos-panel');
+
+  // Función para generar las horas de recordatorio
+  function generarRecordatorios(primeraHora, frecuenciaHoras) {
+    const recordatorios = [];
+    const [horaInicio, minutoInicio] = primeraHora.split(':').map(Number);
+    let horaActual = horaInicio;
+    let minutoActual = minutoInicio;
+
+    // Generar recordatorios para un día
+    for (let i = 0; i < 24 / frecuenciaHoras; i++) {
+      const horaFormateada = String(horaActual).padStart(2, '0');
+      const minutoFormateada = String(minutoActual).padStart(2, '0');
+      recordatorios.push(`${horaFormateada}:${minutoFormateada}`);
+      horaActual = (horaActual + frecuenciaHoras) % 24;
+    }
+    return recordatorios;
+  }
+
+    // Cargar medicamentos guardados al cargar la página
+  document.addEventListener('DOMContentLoaded', () => {
+    const medicamentosGuardados = localStorage.getItem('medicamentos');
+    if (medicamentosGuardados) {
+      const medicamentos = JSON.parse(medicamentosGuardados);
+      listaMedicamentos.push(...medicamentos);
+      medicamentos.forEach((med) => {
+        const li = document.createElement('li');
+        li.textContent = `${med.medicamento} - Recordatorios: ${med.recordatorios.join(', ')}`;
+        ulMedicamentos.appendChild(li);
+      });
+    }
+    mostrarCitasPanel(); // <--- Mantén esta llamada
+  });
+
+  formMedicamento.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const medicamento = document.getElementById('medicamento').value;
+    const hora = document.getElementById('hora').value;
+    const frecuenciaHoras = parseInt(document.getElementById('frecuencia-horas').value);
+    const recordatorios = generarRecordatorios(hora, frecuenciaHoras);
+
+    const datosMedicamento = { medicamento, hora, frecuenciaHoras, recordatorios };
+    listaMedicamentos.push(datosMedicamento);
+    localStorage.setItem('medicamentos', JSON.stringify(listaMedicamentos));
+
+    const item = document.createElement('li');
+    item.textContent = `${medicamento} - Recordatorios: ${recordatorios.join(', ')}`;
+    ulMedicamentos.appendChild(item);
+    formMedicamento.reset();
+  });
+  
+
+  // Array para almacenar las citas
+  const listaCitas = [];
+  const listaCitasPanel = document.getElementById('lista-citas-panel');
+  const formularioCita = document.getElementById('form-cita');
+  const modalCita = document.getElementById('cita-modal');
+const modalEditarCita = document.getElementById('editar-cita-modal');
+        const formularioEditarCita = document.getElementById('form-editar-cita');
+
+        // Función para abrir el modal de editar cita
+        function abrirModalEditarCita(index, cita) {
+            document.getElementById('editar-cita-index').value = index;
+            document.getElementById('editar-cita-descripcion').value = cita.descripcion;
+            document.getElementById('editar-cita-fecha').value = cita.fecha;
+            document.getElementById('editar-cita-hora').value = cita.hora;
+            document.getElementById('editar-cita-recordatorio-hora').value = cita.recordatorio;
+            modalEditarCita.style.display = 'block';
+        }
+
+        // Función para cerrar el modal de editar cita
+        document.getElementById('cerrar-editar-cita').addEventListener('click', () => {
+            modalEditarCita.style.display = 'none';
+        });
+
+        // Evento para guardar los cambios de la cita editada
+        formularioEditarCita.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('editar-cita-index').value);
+            const descripcion = document.getElementById('editar-cita-descripcion').value;
+            const fecha = document.getElementById('editar-cita-fecha').value;
+            const hora = document.getElementById('editar-cita-hora').value;
+            const recordatorio = document.getElementById('editar-cita-recordatorio-hora').value;
+
+            const citasGuardadas = localStorage.getItem('citas');
+            if (citasGuardadas) {
+                const citas = JSON.parse(citasGuardadas);
+                citas[index].descripcion = descripcion;
+                citas[index].fecha = fecha;
+                citas[index].hora = hora;
+                citas[index].recordatorio = recordatorio;
+                localStorage.setItem('citas', JSON.stringify(citas));
+                mostrarCitasPanel(); // Volver a mostrar la lista actualizada
+                modalEditarCita.style.display = 'none';
+            }
+        });
+   // Función para eliminar una cita
+        function eliminarCita(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta cita?')) {
+                const citasGuardadas = localStorage.getItem('citas');
+                if (citasGuardadas) {
+                    const citas = JSON.parse(citasGuardadas);
+                    citas.splice(index, 1);
+                    localStorage.setItem('citas', JSON.stringify(citas));
+                    mostrarCitasPanel(); // Volver a mostrar la lista actualizada
+                }
+            }
+        }
+
+        // Modificación de la función mostrarCitasPanel para incluir botones de Editar y Eliminar
+        function mostrarCitasPanel() {
+            listaCitasPanel.innerHTML = '';
+            const citasGuardadas = localStorage.getItem('citas');
+            if (citasGuardadas) {
+                const citas = JSON.parse(citasGuardadas);
+                listaCitas.length = 0; // Limpiar el array actual
+                listaCitas.push(...citas);
+                citas.forEach((cita, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = `${cita.descripcion} - Fecha: ${cita.fecha} - Hora: ${cita.hora} - Recordatorio: ${cita.recordatorio}`;
+                    const editarBtn = document.createElement('button');
+                    editarBtn.textContent = 'Editar';
+                    editarBtn.addEventListener('click', () => abrirModalEditarCita(index, cita));
+                    const eliminarBtn = document.createElement('button');
+                    eliminarBtn.textContent = 'Eliminar';
+                    eliminarBtn.addEventListener('click', () => eliminarCita(index));
+                    li.appendChild(editarBtn);
+                    li.appendChild(eliminarBtn);
+                    listaCitasPanel.appendChild(li);
+                });
+            }
+        }
+        
+  
+
+
+  // Guardar Cita Médica
+  formularioCita.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const descripcion = document.getElementById('cita-descripcion').value;
+    const fecha = document.getElementById('cita-fecha').value;
+    const hora = document.getElementById('cita-hora').value;
+    const recordatorio = document.getElementById('recordatorio-hora').value;
+    const datosCita = { descripcion, fecha, hora, recordatorio };
+    listaCitas.push(datosCita);
+    localStorage.setItem('citas', JSON.stringify(listaCitas));
+    mostrarCitasPanel();
+    modalCita.style.display = 'none';
+    formularioCita.reset();
+
+
+    
+  });
+
+
+
+  
+  // Cerrar Modal de Cita
+  document.getElementById('cerrar-cita').addEventListener('click', () => {
+    modalCita.style.display = 'none';
+  });
+
+  document.getElementById('continuar').addEventListener('click', () => {
+    const nombre = localStorage.getItem('nombreUsuario');
+    nombreUsuario.textContent = `Bienvenido, ${nombre}`;
+    panel.style.display = 'block';
+    document.getElementById('medicamentos-seccion').style.display = 'none';
+    mostrarMedicamentosPanel();
+    mostrarCitasPanel();
+  });
+
+
+
+function mostrarMedicamentosPanel() {
+    medicamentosPanel.innerHTML = '';
+    const medicamentosGuardados = localStorage.getItem('medicamentos');
+    if (medicamentosGuardados) {
+        const medicamentos = JSON.parse(medicamentosGuardados);
+        medicamentos.forEach((med, index) => {
+            const li = document.createElement('li');
+            li.textContent = `${med.medicamento}, cada ${med.frecuenciaHoras} veces al día, desde ${med.hora} `;
+            const editarBtn = document.createElement('button');
+            editarBtn.textContent = 'Editar';
+            editarBtn.addEventListener('click', () => abrirModalEditarMedicamento(index, med));
+            const eliminarBtn = document.createElement('button');
+            eliminarBtn.textContent = 'Eliminar';
+            eliminarBtn.addEventListener('click', () => eliminarMedicamento(index));
+            li.appendChild(editarBtn);
+            li.appendChild(eliminarBtn);
+            medicamentosPanel.appendChild(li);
+        });
+    }
+}
+
+function abrirModalEditarMedicamento(index, medicamento) {
+    document.getElementById('editar-medicamento-index').value = index;
+    document.getElementById('editar-medicamento-nombre').value = medicamento.medicamento;
+    document.getElementById('editar-medicamento-hora').value = medicamento.hora;
+    document.getElementById('editar-medicamento-frecuencia-horas').value = medicamento.frecuenciaHoras;
+    document.getElementById('editar-medicamento-modal').style.display = 'block';
+}
+
+document.getElementById('cerrar-editar-medicamento').addEventListener('click', () => {
+    document.getElementById('editar-medicamento-modal').style.display = 'none';
+});
+
+document.getElementById('form-editar-medicamento').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const index = parseInt(document.getElementById('editar-medicamento-index').value);
+    const nombre = document.getElementById('editar-medicamento-nombre').value;
+    const hora = document.getElementById('editar-medicamento-hora').value;
+    const frecuenciaHoras = parseInt(document.getElementById('editar-medicamento-frecuencia-horas').value);
+
+    const medicamentosGuardados = localStorage.getItem('medicamentos');
+    if (medicamentosGuardados) {
+        const medicamentos = JSON.parse(medicamentosGuardados);
+        medicamentos[index].medicamento = nombre;
+        medicamentos[index].hora = hora;
+        medicamentos[index].frecuenciaHoras = frecuenciaHoras;
+        localStorage.setItem('medicamentos', JSON.stringify(medicamentos));
+        mostrarMedicamentosPanel();
+        document.getElementById('editar-medicamento-modal').style.display = 'none';
+    }
+});
+
+function eliminarMedicamento(index) {
+    if (confirm('¿Estás seguro de que quieres eliminar este medicamento?')) {
+        const medicamentosGuardados = localStorage.getItem('medicamentos');
+        if (medicamentosGuardados) {
+            const medicamentos = JSON.parse(medicamentosGuardados);
+            medicamentos.splice(index, 1);
+            localStorage.setItem('medicamentos', JSON.stringify(medicamentos));
+            mostrarMedicamentosPanel();
+        }
+    }
+}
+  // Agregar Medicamento en Panel
+  document.getElementById('agregar-medicamento').addEventListener('click', () => {
+    document.getElementById('medicamentos-seccion').style.display = 'block';
+    panel.style.display = 'none';
+  });
+
+  // Agregar Cita Médica
+  document.getElementById('agregar-cita').addEventListener('click', () => {
+    document.getElementById('cita-modal').style.display = 'block';
+  });
+
+  </script>
+</body>
+</html>

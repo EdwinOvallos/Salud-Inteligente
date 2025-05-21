@@ -1,0 +1,140 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #a8dadc, #457b9d); /* Fondo degradado */
+  color: #fff; /* Texto blanco para contraste */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+main {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+}
+
+section {
+  background-color: #f1faee; /* Fondo claro para las secciones */
+  color: #1d3557; /* Texto oscuro para las secciones */
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#registro-seccion h1 {
+  color: #3a0ca3; /* Un color llamativo para el título */
+  font-size: 2.5em; /* Tamaño de fuente grande */
+  margin-bottom: 20px; /* Espacio debajo del título */
+  text-align: center; /* Centrar el título */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar */
+}
+
+h2 {
+  color: #e63946; /* Rojo llamativo para los títulos de sección */
+  margin-top: 0;
+  border-bottom: 3px solid #e63946;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #1d3557;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="time"],
+input[type="date"],
+select {
+  width: calc(100% - 20px);
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #a8dadc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+button {
+  background-color: #457b9d; /* Azul principal para los botones */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: #1d3557; /* Azul oscuro al pasar el ratón */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 10px 0;
+  border-bottom: 1px dashed #a8dadc;
+  color: #1d3557;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+#panel-seccion header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#usuario-panel {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #457b9d;
+}
+
+#cita-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1faee;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  color: #1d3557;
+}
+
+/* Estilos para las imágenes */
+.section-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 15px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 200px; /* Tamaño reducido para las imágenes (ajusta según necesites) */
+}
+
+/* Estilos específicos para la imagen del encabezado del panel (si los necesitas) */
+#panel-seccion header img.section-image {
+  width: auto !important; /* Permite que el ancho del HTML tenga prioridad */
+  height: auto !important; /* Permite que la altura del HTML tenga prioridad */
+  max-width: 80%; /* Ajusta según necesites */
+  max-height: 80%; /* Ajusta según necesites */
+}
